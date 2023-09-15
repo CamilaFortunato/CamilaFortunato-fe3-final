@@ -1,24 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import Footer from "./Components/Footer";
+import Navbar from "./Components/Navbar";
+import { ContextGlobal } from './Components/utils/global.context';
+import Contact from "./Routes/Contact";
+import Detail from "./Routes/Detail";
+import Favs from "./Routes/Favs";
+import Home from "./Routes/Home";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
 
 function App() {
+
+  const {state} = useContext(ContextGlobal)
+
+  const themeC = state.theme === "light" ? "light" : "dark";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className={themeC}>
+        <div className="appContainer">
+        {<Navbar/>}
+        <Routes>
+          <Route path="/" element={<Navigate to="/home"/>} />
+          <Route path="/home" element={<Home/>} />
+          <Route path="/contact" element={<Contact/>} />
+          <Route path="/dentist/:id" element={<Detail/>} />
+          <Route path="/favs" element={<Favs/>} />
+        </Routes>
+        </div>
+        {<Footer/>}
+      </div>
+    </Router>
   );
 }
 
